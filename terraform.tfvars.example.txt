@@ -1,0 +1,6 @@
+password_length = 16
+
+active_password_version = "v1"
+backup_password_version = "v1"
+
+swap_passwords = false
