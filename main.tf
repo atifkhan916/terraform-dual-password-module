@@ -84,3 +84,20 @@ resource "terraform_data" "backup_password_state" {
     swapped  = local.should_swap
   }
 }
+locals {
+  bonus_error = var.backup_password_version != "v1" && var.swap_passwords ? "ERROR" : "OK"
+}
+# BONUS: Prevent rotate + swap simultaneously
+resource "terraform_data" "bonus_validation" {
+  input = {
+    backup_rotate = var.backup_password_version != "v1"
+    swap_enabled  = var.swap_passwords
+  }
+  
+  lifecycle {
+    precondition {
+      condition     = !(var.backup_password_version != "v1" && var.swap_passwords)
+      error_message = "❌ BONUS: Can't rotate backup AND swap together!"
+    }
+  }
+}

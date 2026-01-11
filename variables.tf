@@ -52,3 +52,8 @@ variable "swap_passwords" {
   type        = bool
   default     = false
 }
+variable "rotate_backup" {
+  description = "Set to true to rotate the backup password"
+  type        = bool
+  default     = false
+}
