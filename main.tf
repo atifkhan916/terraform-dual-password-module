@@ -93,11 +93,11 @@ resource "terraform_data" "bonus_validation" {
     backup_rotate = var.backup_password_version != "v1"
     swap_enabled  = var.swap_passwords
   }
-  
+
   lifecycle {
     precondition {
       condition     = !(var.backup_password_version != "v1" && var.swap_passwords)
-      error_message = "❌ BONUS: Can't rotate backup AND swap together!"
+      error_message = "Cannot rotate backup AND swap passwords simultaneously!"
     }
   }
 }
