@@ -16,11 +16,6 @@ locals {
   # Determine if we should swap passwords
   should_swap = var.swap_passwords
 
-  # Detect if backup password is being rotated
-  # This is detected by comparing the current state (if exists) with the new version
-  # For initial creation, we allow it
-  backup_rotation_detected = var.backup_password_version != var.active_password_version
-
   # Determine the actual active and backup password values
   # If swapping, the backup becomes active and vice versa
   # If not swapping, use the original assignments
@@ -83,9 +78,6 @@ resource "terraform_data" "backup_password_state" {
     label    = local.backup_password_label
     swapped  = local.should_swap
   }
-}
-locals {
-  bonus_error = var.backup_password_version != "v1" && var.swap_passwords ? "ERROR" : "OK"
 }
 # BONUS: Prevent rotate + swap simultaneously
 resource "terraform_data" "bonus_validation" {
